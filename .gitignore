@@ -1,10 +1,6 @@
-# 模型文件
-*.pt
-*.pth
-*.onnx
-
 # 输出目录
 mask_output/
+runs/
 
 # Python 缓存
 __pycache__/
@@ -28,3 +24,8 @@ ENV/
 .DS_Store
 Thumbs.db
 
+# 图片文件夹
+rgb/
+batch_masks_manual/
+images/
+output/

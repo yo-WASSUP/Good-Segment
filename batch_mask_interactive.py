@@ -192,8 +192,7 @@ class InteractiveBatchMask:
                     print(f"  ✓ 已保存: {output_name}")
                     
                     # 显示mask预览（小窗口）
-                    preview = cv2.resize(binary_mask, (400, 400), interpolation=cv2.INTER_NEAREST)
-                    cv2.imshow("Mask预览", preview)
+                    cv2.imshow("Mask Preview", binary_mask)
                     cv2.waitKey(500)  # 显示0.5秒
                     
                     self.processed_count += 1
@@ -325,11 +324,11 @@ def main():
         """
     )
     
-    parser.add_argument('input_folder', nargs='?', default='rgb',
-                       help='输入图片文件夹路径 (默认: rgb)')
-    parser.add_argument('-o', '--output', default='batch_masks_manual',
-                       help='输出mask文件夹路径 (默认: batch_masks_manual)')
-    parser.add_argument('-m', '--model', default='mobile_sam.pt',
+    parser.add_argument('input_folder', nargs='?', default='images/ggbond',
+                       help='输入图片文件夹路径')
+    parser.add_argument('-o', '--output', default='output/ggbond',
+                       help='输出mask文件夹路径')
+    parser.add_argument('-m', '--model', default='mobile_sam.pt', 
                        help='模型文件路径 (默认: mobile_sam.pt)')
     
     args = parser.parse_args()

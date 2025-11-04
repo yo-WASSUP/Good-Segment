@@ -152,7 +152,19 @@ def generate_mask(model, image_path):
             
             # 显示彩色结果
             result_img = result.plot()
-            cv2.imshow("生成的Mask", result_img)
+            result_window = "Generated Mask"
+            cv2.namedWindow(result_window, cv2.WINDOW_NORMAL)
+            
+            # 调整结果窗口大小
+            h_r, w_r = result_img.shape[:2]
+            max_w, max_h = 1600, 1200
+            if w_r > max_w or h_r > max_h:
+                scale = min(max_w / w_r, max_h / h_r)
+                cv2.resizeWindow(result_window, int(w_r * scale), int(h_r * scale))
+            else:
+                cv2.resizeWindow(result_window, w_r, h_r)
+            
+            cv2.imshow(result_window, result_img)
             print("✓ 结果已显示在新窗口")
             
             # 提取mask并保存为纯黑白图像
@@ -181,7 +193,18 @@ def generate_mask(model, image_path):
                 print(f"  - 背景部分：黑色 (0)")
                 
                 # 显示二值mask
-                cv2.imshow("二值Mask (黑白)", binary_mask)
+                mask_window = "Binary Mask (Black & White)"
+                cv2.namedWindow(mask_window, cv2.WINDOW_NORMAL)
+                
+                # 调整二值mask窗口大小
+                h_m, w_m = binary_mask.shape[:2]
+                if w_m > max_w or h_m > max_h:
+                    scale = min(max_w / w_m, max_h / h_m)
+                    cv2.resizeWindow(mask_window, int(w_m * scale), int(h_m * scale))
+                else:
+                    cv2.resizeWindow(mask_window, w_m, h_m)
+                
+                cv2.imshow(mask_window, binary_mask)
             
             print(f"{'='*50}\n")
             
@@ -194,7 +217,7 @@ def main():
     global image, display_image
     
     # 配置
-    image_path = "000000.png"
+    image_path = r"images/ggbond/000001.png"
     model_path = "mobile_sam.pt"
     
     print("\n" + "="*60)
@@ -228,10 +251,27 @@ def main():
     print(f"正在加载模型: {model_path}")
     model = SAM(model_path)
     print(f"✓ 模型已加载")
-    print(f"\n当前模式: [点模式] (按 M 切换)\n")
+    print(f"\n当前模式: [框模式] (按 M 切换)\n")
     
     # 创建窗口
     cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+    
+    # 根据图片大小自动调整窗口大小（保持等比例）
+    h, w = image.shape[:2]
+    max_w, max_h = 1600, 1200  # 最大窗口尺寸
+    
+    # 计算缩放比例
+    if w > max_w or h > max_h:
+        scale = min(max_w / w, max_h / h)
+        window_w, window_h = int(w * scale), int(h * scale)
+    else:
+        window_w, window_h = w, h
+    
+    # 设置窗口大小
+    cv2.resizeWindow(window_name, window_w, window_h)
+    print(f"图片尺寸: {w} x {h}")
+    print(f"窗口尺寸: {window_w} x {window_h}")
+    
     cv2.imshow(window_name, display_image)
     cv2.setMouseCallback(window_name, mouse_callback)
     
