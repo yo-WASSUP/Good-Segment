@@ -1,0 +1,30 @@
+# 模型文件
+*.pt
+*.pth
+*.onnx
+
+# 输出目录
+mask_output/
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 虚拟环境
+venv/
+env/
+ENV/
+
+# IDE 设置
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
